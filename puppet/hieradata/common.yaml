@@ -1,0 +1,73 @@
+---
+laravel:
+    laravel.dev: # project name
+        target: '/var/www'
+
+php:
+    install_php55: true # defaults to 5.4
+    install_pear: true
+    mods:
+        - php5-apcu
+        - php5-cli
+        - php5-curl
+        - php5-intl
+        - php5-mcrypt
+        - php5-memcached
+        - php5-mysql
+        - php5-sqlite
+        - php5-gd
+    pecl_mods: # do not choose xdebug here
+        - pecl_http
+    ini:
+        - 'date.timezone = "America/Chicago"'
+        - 'display_errors = On'
+        - 'error_reporting = -1'
+
+apache:
+    servername: laravel-vm
+    mods:
+        - rewrite
+        - php
+    vhosts:
+        laravel.dev: # must match with laravel hash
+            servername: laravel.dev
+            serveraliases:
+                - www.laravel.dev
+            docroot: /var/www/laravel.dev/public
+            port: 80
+
+xdebug:
+    default_enable: 1
+    remote_autostart: 1
+    remote_connect_back: 1
+    remote_enable: 1
+    remote_handler: dbgp
+    remote_port: 9000
+
+mysql:
+    root_password: "123"
+    dbs:
+        laravel4:
+            name: laravel4
+            grant:
+                - ALL
+            user: totwell
+            password: "123"
+            host: localhost
+            charset: utf8
+
+postgresql:
+    dbs:
+        laravel4:
+            name: laravel4
+            user: totwell
+            password: "123"
+            grant: ALL
+
+redis:
+    conf_port: 6379
+    conf_bind: 127.0.0.1
+
+beanstalkd:
+    listen_addr: '127.0.0.1'
+    listen_port: '11300'
