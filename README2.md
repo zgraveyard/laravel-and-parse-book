@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Made by Juan Treminio over a few hour period. The Vagrantfile is about 5x as large as I would like it,
 but it works for what it's made for.
 
@@ -29,3 +30,9 @@ Using Hiera for most of the customization. The file is located at `puppet/hierad
 
 Dotfiles are copied into the VM on every `up` or `provision` or `reload`. Copy/paste/symlink your dotfiles to
 `files/dot`. I have some sample ones in there already.
+=======
+laravel-and-parse-book
+======================
+
+this is the code for jasmine web app book, which talk about using laravel 4 with parse.com
+>>>>>>> 99f229ee61bad60e1511e72f4bf42b5cd3915cc3
