@@ -13,19 +13,26 @@
 
     <ol class="breadcrumb">
         <li><a href="{{URL::action('AdminDashboardController@getIndex')}}">Home</a></li>
-        <li><a href="{{URL::action('AdminCommentsController@getIndex')}}">Posts Comments</a></li>
-        <li>Comment on Post {{$item->post->title}}</li>
+        <li><a href="{{URL::action('AdminPostsController@getIndex')}}">All Posts</a></li>
+        <li class="active">{{ $postName }} Comments</li>
+        <li class="pull-right no-before">
+            <a href="{{URL::route('logout')}}">
+                Logout
+            </a>
+        </li>
     </ol>
 
     <div class="panel panel-default widget">
         <div class="panel-heading">
             <span class="glyphicon glyphicon-comment"></span>
             <h3 class="panel-title">
-                Comment on Post {{$item->post->title}}
-            </h3>
+                `{{ $postName }}` Comments</h3>
+                <span class="label label-info">
+                    {{$total}}</span>
         </div>
         <div class="panel-body">
             <ul class="list-group">
+                @foreach($items as $item)
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-xs-2 col-md-1">
@@ -43,8 +50,8 @@
                                 {{$item->commentBody}}
                             </div>
                             <div class="action">
-                                <a class="btn btn-primary btn-xs" title="Edit" href="{{URL::action('AdminCommentsController@getEdit',$item->objectId)}}">
-                                    <span class="glyphicon glyphicon-pencil"></span>
+                                <a class="btn btn-primary btn-xs" title="View" href="{{URL::action('AdminCommentsController@getRecord',$item->objectId)}}">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                                 @if(!$item->approved)
                                 <a class="btn btn-success btn-xs" title="Approved" href="#">
@@ -55,15 +62,14 @@
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                                 @endif
-                                <a class="btn btn-danger btn-xs" title="Delete" href="{{URL::action('AdminCommentsController@getDelete',$item->objectId)}}">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
                             </div>
                         </div>
                     </div>
                 </li>
+                @endforeach
             </ul>
         </div>
     </div>
+    {{$paginator->links()}}
 </div>
 @stop

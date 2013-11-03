@@ -2,7 +2,7 @@
 
 Route::get('/login',array('as' => 'login', 'uses' => 'AuthController@getLogin'));
 Route::post('/login',array('uses'=>'AuthController@postLogin'));
-Route::get('/logout', array('uses'=>'AuthController@getLogout'));
+Route::get('/logout', array('as'=>'logout','uses'=>'AuthController@getLogout'));
 
 Route::get('/',function(){
     $test = new parseQuery('posts');
@@ -11,13 +11,14 @@ Route::get('/',function(){
 });
 
 Route::get('/admin',array('before'=>'auth',function(){
-    return Redirect::to('/admin/posts');
+    return Redirect::action('AdminDashboardController@getIndex');
 }));
 
 //'before'=>'auth',
 Route::group(array('before'=>'auth','prefix'=>'admin'),function(){
     Route::controller('posts','AdminPostsController');
     Route::controller('comments','AdminCommentsController');
+    Route::controller('dashboard','AdminDashboardController');
 });
 
 //Route::group(array('before'=>'auth'),function(){

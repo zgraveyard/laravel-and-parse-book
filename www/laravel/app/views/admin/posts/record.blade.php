@@ -1,53 +1,73 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="utf-8">
-    <style>
-        div.item{
-            display: block;
-            margin: 5px;
-            overflow : hidden;
-        }
-        div.item label{
-            display: block;
-            font-weight: bold;
-        }
+@extends('layout')
 
-        div.item p{
-            border-bottom : 1px dashed #ccc;
-            margin-bottom: 2px;
-            padding-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<h2>{{$item->title}}</h2>
-@if(Session::has('success'))
-    {{Session::get('success')}}
-@endif
-<div>
-    <div class="item">
-        <label>Title :</label>
-        <p>{{$item->title}}</p>
-    </div>
-    <div class="item">
-        <label>Body :</label>
-        <p>{{$item->body}}</p>
-    </div>
-    <div class="item">
-        <label>Status :</label>
-        <p>
-        @if($item->active)
-            Active
-        @else
-            In Active
-        @endif
-        </p>
-    </div>
-    <div class="item">
-        <label>Added Date :</label>
-        <p>{{date('d - M - Y',strtotime($item->createdAt))}}</p>
+@section('body')
+<div class="row">
+
+    @if(Session::has('success'))
+    <div class="alert alert-success">{{Session::get('success')}}</div>
+    @endif
+
+    @if(Session::has('error'))
+    <div class="alert alert-danger">{{Session::get('error')}}</div>
+    @endif
+
+    <ol class="breadcrumb">
+        <li><a href="{{URL::action('AdminDashboardController@getIndex')}}">Home</a></li>
+        <li><a href="{{URL::action('AdminPostsController@getIndex')}}">ALL Posts</a></li>
+        <li class="active">{{$item->title}}</li>
+        <li class="pull-right no-before">
+            <a href="{{URL::route('logout')}}">
+                Logout
+            </a>
+        </li>
+    </ol>
+    <div class="panel panel-default widget">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <h3 class="panel-title">
+                {{$item->title}}</h3>
+        </div>
+        <div class="panel-body">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1">
+                            <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+                        <div class="col-xs-10 col-md-11">
+                            <div>
+                                <div class="mic-info">
+                                    on {{date('d-M-Y',strtotime($item->createdAt))}}
+                                </div>
+                            </div>
+                            <div class="comment-text">
+                                {{$item->body}}
+                            </div>
+                            <div class="action">
+                                <a class="btn btn-primary btn-xs" title="Edit" href="{{URL::action('AdminPostsController@getEdit',$item->objectId)}}">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                @if(!$item->active)
+                                <a class="btn btn-success btn-xs" title="Published" href="#">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                                @else
+                                <a class="btn btn-danger btn-xs" title="Hidden" href="#">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                                @endif
+                                <a class="btn btn-danger btn-xs" title="Delete" href="{{URL::action('AdminPostsController@getDelete',$item->objectId)}}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                                <a class="btn btn-primary btn-xs" title="View Post Comments" href="{{URL::action('AdminCommentsController@getPostComments',$item->objectId)}}">
+                                    <span class="glyphicon glyphicon-comment"></span>
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </div>
-</body>
-</html>
+@stop

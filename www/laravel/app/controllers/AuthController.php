@@ -10,9 +10,10 @@ class AuthController extends BaseController{
     public function postLogin()
     {
         if(Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')))){
-               return Redirect::intended('/');
+               return Redirect::intended('/admin/dashboard');
         }else{
-            return Redirect::to('/login')->with('error','You dont have access permission, sorry.');
+            return Redirect::to('/login')
+                ->with('error','You dont have access permission, sorry.');
         }
     }
 

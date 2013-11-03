@@ -1,44 +1,28 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="utf-8">
-    <style>
-        div.item{
-            display: block;
-            margin: 5px;
-            overflow : hidden;
-        }
+@extends('layout')
 
-        div.item label,
-        div.item input{
-            width : '50%';
-            float: left;
-            padding : 5px;
-        }
-        div.error{color:red;}
-
-    </style>
-</head>
-<body>
-<h2>Login Form</h2>
-
-<div>
+@section('body')
+<div class="row">
     @if(Session::has('error'))
-        <div class="error">{{Session::get('error')}}</div>
+    <div class="alert alert-danger">{{Session::get('error')}}</div>
     @endif
-    {{Form::open(array('action'=>'AuthController@postLogin','id'=>'loginForm'))}}
-     <div class="item">
-         {{Form::label('email','Your Email:')}}
-         {{Form::text('email',Input::old('email'),array('id'=>'email','placeholder'=>'joe@johndoe.com'))}}
-     </div>
-    <div class="item">
-        {{Form::label('password','Your Password:')}}
-        {{Form::password('password',null,array('id'=>'password'))}}
+    <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <h1 class="text-center login-title">Sign in to continue</h1>
+        <div class="account-wall">
+            <img class="profile-img" src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=120"
+                 alt="">
+                {{Form::open(array('action'=>'AuthController@postLogin','id'=>'loginForm', 'role'=>'form', 'class'=>'form-signin'))}}
+
+                {{Form::text('email',Input::old('email'),
+                array('id'=>'email','placeholder'=>'joe@johndoe.com','class'=>'form-control','required'=>'required')
+                )}}
+                {{Form::password('password',
+                array('id'=>'password','class'=>'form-control','placeholder'=>'password')
+                )}}
+                {{Form::submit('Login',array('class'=>'btn btn-lg btn-primary btn-block'))}}
+                <span class="clearfix"></span>
+            {{Form::close()}}
+        </div>
     </div>
-    <div class="item">
-        {{Form::submit('login')}}
-    </div>
-    {{Form::close()}}
 </div>
-</body>
-</html>
+
+@stop

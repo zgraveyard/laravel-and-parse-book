@@ -2,23 +2,32 @@
 
 class AdminPostsController extends BaseController{
 
+
+    public function __construct()
+    {
+        $this->perPage = Config::get('application.perPage');
+
+        $pageNo = Input::get('page');
+        $this->skip = (is_null($pageNo['page'])) ? 0 : ( $this->perPage * ( $pageNo['page'] - 1)) ;
+
+    }
+
+
     public function getIndex()
     {
         try{
-            $pageNo = Input::get('page');
-            $skip = (is_null($pageNo['page'])) ? 0 : ( 10 * ( $pageNo['page'] - 1)) ;
-
             $records = new parseQuery('posts');
             $records->setCount(true);
-            $records->setLimit(10);
-            $records->setSkip($skip);
+            $records->setLimit($this->perPage);
+            $records->setSkip($this->skip);
             $result = $records->find();
 
-            $paginator = Paginator::make($result->results,$result->count,10);
+            $paginator = Paginator::make($result->results,$result->count,$this->perPage);
 
             $data = array(
                 'items'=> $result->results,
-                'paginator' => $paginator
+                'paginator' => $paginator,
+                'total' => $result->count
             );
 
             return View::make('admin.posts.list')->with($data);

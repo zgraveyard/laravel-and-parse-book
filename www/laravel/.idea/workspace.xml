@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1356c696-b968-46fd-97b4-0eefa16818f0" name="Default" comment="" />
+    <list default="true" id="1356c696-b968-46fd-97b4-0eefa16818f0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/controllers/AdminDashboardController.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/config/application.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/dashboard.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/layout.blade.php" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/assets/css/main.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/views/admin/comments/post-comment.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminCommentsController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminCommentsController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AdminPostsController.php" afterPath="$PROJECT_DIR$/app/controllers/AdminPostsController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/AuthController.php" afterPath="$PROJECT_DIR$/app/controllers/AuthController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/_ide_helper.php" afterPath="$PROJECT_DIR$/_ide_helper.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/laravel.iml" afterPath="$PROJECT_DIR$/.idea/laravel.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/comments/list.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/comments/list.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/posts/list.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/posts/list.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/login.blade.php" afterPath="$PROJECT_DIR$/app/views/login.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/comments/record.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/comments/record.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/admin/posts/record.blade.php" afterPath="$PROJECT_DIR$/app/views/admin/posts/record.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/routes.php" afterPath="$PROJECT_DIR$/app/routes.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/config/view.php" afterPath="$PROJECT_DIR$/app/config/view.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="laravel.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/dummy.txt" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381515972064" ignored="false" />
-    <file path="/a.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1380982583757" ignored="false" />
-    <file path="/2013_10_05_140200_create_user_table.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1380984891698" ignored="false" />
-    <file path="/UsersTableSeeder.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1380983725937" ignored="false" />
-    <file path="/a.dummy" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1380989911970" ignored="false" />
-    <file path="/routes.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1380986714377" ignored="false" />
-    <file path="/AuthController.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381579024036" ignored="false" />
-    <file path="/AdminPostsController.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381085884161" ignored="false" />
-    <file path="/record.blade.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381073824140" ignored="false" />
-    <file path="/Dummy.txt" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381310257515" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../klass/app/controllers/admin/CouponController.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381129985637" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../klass/public/themes/admin/views/coupon/index.blade.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381129985637" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../klass/app/models/College.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381122739126" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../../klass/app/controllers/admin/AdminController.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381129985637" ignored="false" />
-    <file path="$PROJECT_DIR$/vendor/jeremeamia/SuperClosure/phpunit.xml.dist" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381515864407" ignored="false" />
-    <file path="/AdminCommentsController.php" changelist="1356c696-b968-46fd-97b4-0eefa16818f0" time="1381595353930" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,46 +47,7 @@
     <favorites_list name="laravel" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="AdminCommentsController.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/AdminCommentsController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="0" selection-start="2491" selection-end="3252" vertical-scroll-proportion="-3.4166667">
-              <folding>
-                <element signature="n#getAdd#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="record.blade.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/comments/record.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="55" column="10" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.81430537">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="edit.blade.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/comments/edit.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="31" column="43" selection-start="754" selection-end="754" vertical-scroll-proportion="-13.375">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="list.blade.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/admin/comments/list.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="12" selection-start="774" selection-end="774" vertical-scroll-proportion="-15.083333">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -90,7 +56,6 @@
   </component>
   <component name="FrameworkCommandLineHistory">
     <commandsHistory>
-      <command text="composer dump" />
       <command text="composer dump" />
       <command text="composer update" />
       <command text="composer update" />
@@ -113,44 +78,98 @@
       <command text="composer update" />
       <command text="composer update" />
       <command text="composer dump" />
+      <command text="compouser update" />
+      <command text="composer update" />
+      <command text="composer dump" />
     </commandsHistory>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitLogSettings">
+    <option name="myDateState">
+      <MyDateState />
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.txt" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/libraries/parse/parse.php" />
-        <option value="$PROJECT_DIR$/app/controllers/HomeController.php" />
-        <option value="$PROJECT_DIR$/app/libraries/parse/parseQuery.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/posts/add.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/posts/record.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/posts/edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
-        <option value="$PROJECT_DIR$/app/controllers/AuthController.php" />
         <option value="$PROJECT_DIR$/app/views/login.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/AuthController.php" />
+        <option value="$PROJECT_DIR$/app/views/layout.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/AdminDashboardController.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/dashboard.blade.php" />
+        <option value="$PROJECT_DIR$/app/config/view.php" />
+        <option value="$PROJECT_DIR$/app/config/application.php" />
         <option value="$PROJECT_DIR$/app/views/admin/comments/record.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/posts/list.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/comments/add.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/AdminPostsController.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/comments/edit.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/admin/comments/list.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/AdminCommentsController.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/public/assets/css/main.css" />
+        <option value="$PROJECT_DIR$/app/views/admin/comments/post-comment.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/posts/record.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/comments/list.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/admin/posts/list.blade.php" />
       </list>
     </option>
   </component>
-  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
+  <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/vendor/symfony/translation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/vendor/dflydev/markdown" />
+      <path value="$PROJECT_DIR$/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/vendor/symfony/dom-crawler" />
+      <path value="$PROJECT_DIR$/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/vendor/symfony/css-selector" />
+      <path value="$PROJECT_DIR$/vendor/symfony/browser-kit" />
+      <path value="$PROJECT_DIR$/vendor/symfony/class-loader" />
+      <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/vendor/jeremeamia/SuperClosure" />
+      <path value="$PROJECT_DIR$/vendor/predis/predis" />
+      <path value="$PROJECT_DIR$/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/vendor/patchwork/utf8" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/vendor/nesbot/carbon" />
+      <path value="$PROJECT_DIR$/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/vendor/ircmaxell/password-compat" />
+      <path value="$PROJECT_DIR$/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/vendor/filp/whoops" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/vendor/classpreloader/classpreloader" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-ide-helper" />
+      <path value="$PROJECT_DIR$/vendor/doctrine/annotations" />
+    </include_path>
+  </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
     <option name="width" value="1440" />
-    <option name="height" value="848" />
+    <option name="height" value="842" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -219,6 +238,60 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="public" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="css" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -238,6 +311,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="laravel" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -316,12 +411,13 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="appearance" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="FullScreen" value="false" />
-    <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PublishConfig" serverName="laravel.dev" serverId="5368240e-1e1f-4d5b-b3dc-6b7c9d1613a5">
     <servers>
@@ -349,6 +445,9 @@
       <method />
     </configuration>
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server" server_id="5368240e-1e1f-4d5b-b3dc-6b7c9d1613a5" server_name="laravel.dev">
@@ -386,18 +485,20 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="848" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1440" height="842" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936507" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31779054" sideWeight="0.6719577" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31319445" sideWeight="0.67270374" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32891247" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283046" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32729626" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -407,65 +508,15 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Command Line Tools Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32804233" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
-    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
-    <option name="CHECK_NEW_TODO" value="true" />
     <option name="myTodoPanelSettings">
-      <value>
-        <are-packages-shown value="false" />
-        <are-modules-shown value="false" />
-        <flatten-packages value="false" />
-        <is-autoscroll-to-source value="false" />
-      </value>
+      <TodoPanelSettings />
     </option>
-    <option name="PERFORM_UPDATE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_COMMIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_CHECKOUT_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
-    <option name="PERFORM_ROLLBACK_IN_BACKGROUND" value="false" />
-    <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="false" />
-    <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
-    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
-    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
-    <option name="DEFAULT_PATCH_EXTENSION" value="patch" />
-    <option name="SHORT_DIFF_HORIZONTALLY" value="true" />
-    <option name="SHORT_DIFF_EXTRA_LINES" value="2" />
-    <option name="SOFT_WRAPS_IN_SHORT_DIFF" value="true" />
-    <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
-    <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
-    <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
-    <option name="LIMIT_HISTORY" value="true" />
-    <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
-    <option name="UPDATE_FILTER_SCOPE_NAME" />
-    <option name="USE_COMMIT_MESSAGE_MARGIN" value="false" />
-    <option name="COMMIT_MESSAGE_MARGIN_SIZE" value="72" />
-    <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="false" />
-    <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" />
-    <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
-    <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
-    <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
-    <option name="FILE_HISTORY_DIALOG_COMMENTS_SPLITTER_PROPORTION" value="0.8" />
-    <option name="FILE_HISTORY_DIALOG_SPLITTER_PROPORTION" value="0.5" />
-    <option name="ACTIVE_VCS_NAME" />
-    <option name="UPDATE_GROUP_BY_PACKAGES" value="false" />
-    <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
-    <option name="UPDATE_FILTER_BY_SCOPE" value="false" />
-    <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
-    <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -473,121 +524,123 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/libraries/parse/parseConfig.php">
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Pagination/views/slider-3.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="7" selection-start="96" selection-end="96" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/posts/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="38" selection-start="1125" selection-end="1125" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/login.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="28" selection-start="360" selection-end="360" vertical-scroll-proportion="0.3622159">
-          <folding>
-            <marker date="1381579114000" expanded="true" signature="-1:-1" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/AuthController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="96" selection-start="433" selection-end="433" vertical-scroll-proportion="0.29829547">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="745">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/filters.php">
+    <entry file="file://$PROJECT_DIR$/app/config/app.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2850">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/BaseController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="745">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/view.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="41" selection-start="900" selection-end="900" vertical-scroll-proportion="0.5825243" vertical-offset="0" max-vertical-offset="721">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/application.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="19" selection-start="39" selection-end="39" vertical-scroll-proportion="0.041608877" vertical-offset="0" max-vertical-offset="721">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/comments/record.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="12" selection-start="658" selection-end="707" vertical-scroll-proportion="-7.375" vertical-offset="138" max-vertical-offset="1110">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="74" selection-start="604" selection-end="604" vertical-scroll-proportion="0.25787964" vertical-offset="0" max-vertical-offset="698">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/admin/comments/post-comment.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="0" selection-start="547" selection-end="690" vertical-scroll-proportion="0.35036495" vertical-offset="15" max-vertical-offset="1200">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/admin/posts/record.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="0" selection-start="0" selection-end="1094" vertical-scroll-proportion="0.3314993">
-          <folding />
+        <state line="21" column="13" selection-start="682" selection-end="682" vertical-scroll-proportion="0.459854" vertical-offset="0" max-vertical-offset="1170">
+          <folding>
+            <marker date="1383473453000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/posts/add.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/AdminCommentsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="7" selection-start="0" selection-end="1110" vertical-scroll-proportion="0.9375">
-          <folding />
+        <state line="159" column="36" selection-start="5494" selection-end="5494" vertical-scroll-proportion="0.21633238" vertical-offset="689" max-vertical-offset="1755">
+          <folding>
+            <element signature="n#getEdit#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+            <element signature="n#postEdit#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+            <element signature="n#getRecord#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+            <element signature="n#getDelete#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+            <element signature="n#getAdd#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+            <element signature="n#postAdd#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/comments/add.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/dashboard.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="38" selection-start="1281" selection-end="1287" vertical-scroll-proportion="0.8683068">
+        <state line="3" column="30" selection-start="58" selection-end="67" vertical-scroll-proportion="0.06355932" vertical-offset="0" max-vertical-offset="708">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="455" selection-end="641" vertical-scroll-proportion="0.35075653">
+        <state line="4" column="41" selection-start="189" selection-end="195" vertical-scroll-proportion="0.083217755" vertical-offset="0" max-vertical-offset="721">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/AdminPostsController.php">
+    <entry file="file://$PROJECT_DIR$/public/assets/css/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="29" selection-start="2040" selection-end="2040" vertical-scroll-proportion="0.42228335">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/posts/list.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="430" selection-end="497" vertical-scroll-proportion="0.071526825">
-          <folding>
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="{...}" />
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1381581467000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/comments/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="43" selection-start="754" selection-end="754" vertical-scroll-proportion="-13.375">
+        <state line="90" column="28" selection-start="2056" selection-end="2056" vertical-scroll-proportion="0.90872484" vertical-offset="673" max-vertical-offset="1455">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/admin/comments/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="12" selection-start="774" selection-end="774" vertical-scroll-proportion="-15.083333">
+        <state line="20" column="17" selection-start="650" selection-end="650" vertical-scroll-proportion="0.31779662" vertical-offset="75" max-vertical-offset="1185">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/libraries/parse/parse.php">
+    <entry file="file://$PROJECT_DIR$/app/views/admin/posts/list.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="178" column="5" selection-start="3466" selection-end="4587" vertical-scroll-proportion="-27.791666">
+        <state line="20" column="13" selection-start="585" selection-end="585" vertical-scroll-proportion="0.42372882" vertical-offset="0" max-vertical-offset="1260">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/AdminCommentsController.php">
+    <entry file="file://$PROJECT_DIR$/app/controllers/AdminPostsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="0" selection-start="2491" selection-end="3252" vertical-scroll-proportion="-3.4166667">
-          <folding>
-            <element signature="n#getAdd#0;n#AdminCommentsController#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/admin/comments/record.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="10" selection-start="1374" selection-end="1374" vertical-scroll-proportion="0.81430537">
+        <state line="41" column="0" selection-start="1086" selection-end="1631" vertical-scroll-proportion="0.16782247" vertical-offset="494" max-vertical-offset="2205">
           <folding />
         </state>
       </provider>

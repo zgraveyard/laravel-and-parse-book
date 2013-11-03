@@ -2,22 +2,32 @@
 
 class AdminCommentsController extends BaseController{
 
+    public function __construct()
+    {
+        $this->perPage = Config::get('application.perPage');
+        $pageNo = (is_null(Input::only('page'))) ? 0 : Input::only('page');
+        $this->skip   = (($this->perPage * ($pageNo['page'] - 1)) < 0) ? 0 : ($this->perPage * ($pageNo['page'] - 1));
+    }
+
     public function getIndex()
     {
         try{
+
             $fullComments = new parseQuery('comments');
             $fullComments->setCount(true);
             //this is the important field, which also get the post data
             $fullComments->whereInclude('post');
+            $fullComments->setLimit($this->perPage);
+            $fullComments->setSkip($this->skip);
+            $fullComments->orderByDescending('createdAt');
             $comments = $fullComments->find();
 
-
-
-            $paginator = Paginator::make($comments->results, $comments->count, 10);
+            $paginator = Paginator::make($comments->results, $comments->count, $this->perPage);
 
             $data = array(
                 'items'=> $comments->results,
-                'paginator' => $paginator
+                'paginator' => $paginator,
+                'total' => $comments->count
             );
 
             return View::make('admin.comments.list')->with($data);
@@ -137,6 +147,65 @@ class AdminCommentsController extends BaseController{
 
             return Redirect::action(array('PostsController@getRecord', $result->results[0]->objectId))
                 ->with('success','Your comment has been added');
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+
+    public function getPostComments($postObjectId = null)
+    {
+        try{
+            if(is_null($postObjectId)){
+                return Redirect::action('AdminPostsController@getIndex')->with('error','You must select a record to view');
+            }
+
+            $fullComments = new parseQuery('comments');
+            $fullComments->setCount(true);
+            //this is the important field, which also get the post data
+            $fullComments->whereInclude('post');
+            $fullComments->where('post',$fullComments->dataType('pointer',array('posts',$postObjectId)));
+            $fullComments->setLimit($this->perPage);
+            $fullComments->setSkip($this->skip);
+            $fullComments->orderByDescending('createdAt');
+            $comments = $fullComments->find();
+
+            $postName = $this->_getPostName($postObjectId);
+
+            $paginator = Paginator::make($comments->results, $comments->count, $this->perPage);
+
+            $data = array(
+                'items'=> $comments->results,
+                'paginator' => $paginator,
+                'total' => $comments->count,
+                'postName' => $postName
+            );
+
+            return View::make('admin.comments.post-comment')->with($data);
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    private function _getPostName($objectId = null)
+    {
+        if(is_null($objectId)){
+            return Redirect::action('AdminPostsController@getIndex')->with('error','You must select a record to view');
+        }
+
+        try{
+            $recordInfo = new parseQuery('posts');
+            $recordInfo->where('objectId',$objectId);
+            $result = $recordInfo->find();
+
+            if(!empty($result->results)){
+                return $result->results[0]->title;
+            }
+
+            throw new Exception('No Records found');
+
 
         }catch(ParseLibraryException $e){
             throw new Exception($e->getMessage(), $e->getCode());
