@@ -86,7 +86,7 @@ class AdminPostsController extends BaseController{
             $postData = new parseObject('posts');
             $postData->title = Input::get('title');
             $postData->body = Input::get('body');
-            $postData->status = true;
+            $postData->active = true;
 
             $result = $postData->save();
 
@@ -125,7 +125,7 @@ class AdminPostsController extends BaseController{
             $postData = new parseObject('posts');
             $postData->title = Input::get('title');
             $postData->body = Input::get('body');
-            $postData->status = true;
+            $postData->active = true;
 
             $result = $postData->update(Input::get('objectId'));
 
