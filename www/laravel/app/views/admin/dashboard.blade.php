@@ -25,7 +25,7 @@
                             <span class="glyphicon glyphicon-user"></span>
                             <br/>Users
                         </a>
-                        <a href="#" class="btn btn-primary btn-lg" role="button">
+                        <a href="{{URL::route('logout')}}" class="btn btn-primary btn-lg" role="button">
                             <span class="glyphicon glyphicon-signal"></span>
                             <br/>Logout
                         </a>

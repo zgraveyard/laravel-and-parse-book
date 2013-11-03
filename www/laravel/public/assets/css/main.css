@@ -90,3 +90,7 @@ body{padding-top:30px;}
 li.no-before:before{
     content: none !important;
 }
+
+.widget .panel-body form{
+    margin: 15px;
+}

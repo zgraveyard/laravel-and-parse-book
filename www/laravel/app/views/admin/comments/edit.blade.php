@@ -1,58 +1,55 @@
-<!DOCTYPE html>
-<html lang="en-US">
-<head>
-    <meta charset="utf-8">
-    <style>
-        div.item{
-            display: block;
-            margin: 5px;
-            overflow : hidden;
-        }
-        div.item label{
-            display: block;
-            font-weight: bold;
-        }
+@extends('layout')
 
-        div.item p{
-            border-bottom : 1px dashed #ccc;
-            margin-bottom: 2px;
-            padding-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<h2>Add new Comment ( Reply )</h2>
-<h4><a href="{{URL::action('AdminCommentsController@getIndex')}}">Back</a></h4>
-<div>
+@section('body')
+<div class="row">
 
-    {{Form::open(array('action'=>'AdminCommentsController@postEdit'))}}
-    <table>
-        <tr>
-            <td>Author Name :</td>
-            <td>{{Form::text('authorName',$item->authorName,array('id'=>'authorName','placeholder'=>'Your Name'))}}</td>
-        </tr>
-        <tr>
-            <td>Author Email :</td>
-            <td>{{Form::text('authorEmail',$item->authorEmail,array('id'=>'authorEmail','placeholder'=>'Your Email'))}}</td>
-        </tr>
-        <tr>
-            <td>Comment :</td>
-            <td>{{Form::textarea('commentBody',$item->commentBody,array('id'=>'commentBody','placeholder'=>'Comment Body'))}}</td>
-        </tr>
-        <tr>
-            <td>Approved :</td>
-            <td>{{Form::select('approved',array('1'=>'Approved','0'=>'Waiting Approval'),$item->approved,array('id'=>'commentBody','placeholder'=>'Comment Body'))}}</td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
-            <td>
-                {{Form::hidden('postsId',$item->post->objectId)}}
-                {{Form::hidden('objectId',$item->objectId)}}
-                {{Form::submit('Update')}}
-            </td>
-        </tr>
-    </table>
-    {{Form::close()}}
+    @if(Session::has('success'))
+    <div class="alert alert-success">{{Session::get('success')}}</div>
+    @endif
+
+    @if(Session::has('error'))
+    <div class="alert alert-danger">{{Session::get('error')}}</div>
+    @endif
+
+    <ol class="breadcrumb">
+        <li><a href="{{URL::action('AdminDashboardController@getIndex')}}">Home</a></li>
+        <li><a href="{{URL::action('AdminCommentsController@getIndex')}}">ALL Comments</a></li>
+        <li class="active">Edit Comment</li>
+        <li class="pull-right no-before">
+            <a href="{{URL::route('logout')}}">
+                Logout
+            </a>
+        </li>
+    </ol>
+    <div class="panel panel-default widget">
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-list-alt"></span>
+            <h3 class="panel-title">
+                Edit Comment</h3>
+        </div>
+        <div class="panel-body">
+            {{Form::open(array('action'=>'AdminCommentsController@postEdit', 'role'=>'form'))}}
+            <div class="form-group">
+                {{Form::label('authorName','Your Name :')}}
+                {{Form::text('authorName',$item->authorName,array('id'=>'authorName','placeholder'=>'Your Name', 'class'=>'form-control', 'required'=>'required'))}}
+            </div>
+            <div class="form-group">
+                {{Form::label('authorEmail','Your Email :')}}
+                {{Form::text('authorEmail',$item->authorEmail,array('id'=>'authorEmail','placeholder'=>'Your Email', 'class'=>'form-control', 'required'=>'required'))}}
+            </div>
+            <div class="form-group">
+                {{Form::label('commentBody','Comment :')}}
+                {{Form::textarea('commentBody',$item->commentBody,array('id'=>'commentBody','placeholder'=>'Comment Body', 'class'=>'form-control', 'required'=>'required'))}}
+            </div>
+            <div class="form-group">
+                {{Form::label('approved','Approved :')}}
+                {{Form::select('approved',array('1'=>'Approved','0'=>'Waiting Approval'),$item->approved,array('id'=>'approved','class'=>'form-control'))}}
+            </div>
+            {{Form::hidden('postsId',$item->post->objectId)}}
+            {{Form::hidden('objectId',$item->objectId)}}
+            {{Form::submit('Reply',array('class'=>'btn btn-primary'))}}
+            {{Form::close()}}
+        </div>
+    </div>
 </div>
-</body>
-</html>
+@stop

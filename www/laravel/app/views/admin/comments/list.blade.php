@@ -38,8 +38,8 @@
                                 <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
                             <div class="col-xs-10 col-md-11">
                                 <div>
-                                    <a href="{{URL::action('AdminPostsController@getRecord',$item->post->objectId)}}">
-                                        {{ $item->post->title }}</a>
+                                    <a href="{{URL::action('AdminCommentsController@getRecord',$item->objectId)}}">
+                                        Comment on {{ $item->post->title }}</a>
                                     <div class="mic-info">
                                         By: <a href="{{URL::action('AdminCommentsController@getRecord',$item->objectId)}}">{{$item->authorName}}</a>
                                         on {{date('d-M-Y',strtotime($item->createdAt))}}
