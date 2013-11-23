@@ -12,7 +12,7 @@
         http://bootsnipp.com/snippets/featured/recent-comments-admin-panel
         http://bootsnipp.com/snippets/featured/admin-panel-quick-shortcuts
     -->
-
+<title>Jasmine Administration Section</title>
 </head>
 <body>
 <div class="container">

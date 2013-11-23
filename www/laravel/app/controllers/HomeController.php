@@ -2,33 +2,22 @@
 
 class HomeController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
-
 	public function getIndex()
 	{
+        try{
+            $posts = new parseQuery('posts');
+            $result = $posts->find();
 
-        $test = new parseQuery('posts');
+            $data = array(
+                'posts' => $result->results
+            );
 
-        return Response::json($test->find());
 
-//		return View::make('hello');
+            return View::make('site.index')->with($data);
+
+        } catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage());
+        }
 	}
-
-    public function getTest()
-    {
-        return 'Hi';
-    }
-
 
 }

@@ -4,11 +4,7 @@ Route::get('/login',array('as' => 'login', 'uses' => 'AuthController@getLogin'))
 Route::post('/login',array('uses'=>'AuthController@postLogin'));
 Route::get('/logout', array('as'=>'logout','uses'=>'AuthController@getLogout'));
 
-Route::get('/',function(){
-    $test = new parseQuery('posts');
-
-    return Response::json($test->find());
-});
+Route::controller('/','HomeController');
 
 Route::get('/admin',array('before'=>'auth',function(){
     return Redirect::action('AdminDashboardController@getIndex');

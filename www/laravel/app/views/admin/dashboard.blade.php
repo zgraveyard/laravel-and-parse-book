@@ -31,7 +31,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="http://www.jquery2dotnet.com/" class="btn btn-success btn-lg btn-block" role="button">
+                <a href="http://www.jasmine.dev/" class="btn btn-success btn-lg btn-block" role="button">
                     <span class="glyphicon glyphicon-globe"></span>
                     Website
                 </a>

@@ -82,7 +82,6 @@ class AdminCommentsController extends BaseController{
         }
     }
 
-
     public function getRecord($objectId = null)
     {
         if(is_null($objectId)){
@@ -111,11 +110,12 @@ class AdminCommentsController extends BaseController{
     public function getDelete($objectId = null)
     {
         if(is_null($objectId)){
-            return Redirect::action('AdminCommentsController@getIndex')->with('error','Choose a comment to delete');
+            return Redirect::action('AdminCommentsController@getIndex')
+                ->with('error','Choose a comment to delete');
         }
 
         try{
-            $recordInfo = new parseObject('posts');
+            $recordInfo = new parseObject('comments');
             $recordInfo->delete($objectId);
 
             return Redirect::action('AdminCommentsController@getIndex')
@@ -129,7 +129,8 @@ class AdminCommentsController extends BaseController{
     public function getAdd($postObjectId = null)
     {
         if(is_null($postObjectId)){
-            return Redirect::action('AdminPostsController@getIndex')->with('error','Choose a post first');
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','Choose a post first');
         }
         return View::make('admin.comments.add');
     }
@@ -145,7 +146,7 @@ class AdminCommentsController extends BaseController{
 
             $result = $comment->save();
 
-            return Redirect::action(array('PostsController@getRecord', $result->results[0]->objectId))
+            return Redirect::action('AdminPostsController@getRecord', $result->results[0]->objectId)
                 ->with('success','Your comment has been added');
 
         }catch(ParseLibraryException $e){
@@ -153,12 +154,12 @@ class AdminCommentsController extends BaseController{
         }
     }
 
-
     public function getPostComments($postObjectId = null)
     {
         try{
             if(is_null($postObjectId)){
-                return Redirect::action('AdminPostsController@getIndex')->with('error','You must select a record to view');
+                return Redirect::action('AdminPostsController@getIndex')
+                    ->with('error','You must select a record to view');
             }
 
             $fullComments = new parseQuery('comments');
@@ -189,10 +190,51 @@ class AdminCommentsController extends BaseController{
         }
     }
 
+    public function getHide($objectId = null)
+    {
+        if(is_null($objectId)){
+            return Redirect::action('AdminCommentsController@getIndex')
+                ->with('error','Choose a comment to unpublish');
+        }
+
+        try{
+            $recordInfo = new parseObject('comments');
+            $recordInfo->approved = false;
+            $recordInfo->update($objectId);
+
+            return Redirect::action('AdminCommentsController@getIndex')
+                ->with('success','The comment Has been deleted');
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function getPublish($objectId = null)
+    {
+        if(is_null($objectId)){
+            return Redirect::action('AdminCommentsController@getIndex')
+                ->with('error','Choose a comment to publish');
+        }
+
+        try{
+            $recordInfo = new parseObject('comments');
+            $recordInfo->approved = true;
+            $recordInfo->update($objectId);
+
+            return Redirect::action('AdminCommentsController@getIndex')
+                ->with('success','The comment Has been deleted');
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
     private function _getPostName($objectId = null)
     {
         if(is_null($objectId)){
-            return Redirect::action('AdminPostsController@getIndex')->with('error','You must select a record to view');
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','You must select a record to view');
         }
 
         try{

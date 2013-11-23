@@ -29,7 +29,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-xs-2 col-md-1">
-                            <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+                            <img src="http://lorempixel.com/80/80/people/{{rand(1,10)}}" class="img-circle img-responsive" alt="" /></div>
                         <div class="col-xs-10 col-md-11">
                             <div>
                                 <a href="{{URL::action('AdminPostsController@getRecord',$item->post->objectId)}}">
@@ -47,11 +47,11 @@
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                                 @if(!$item->approved)
-                                <a class="btn btn-success btn-xs" title="Approved" href="#">
+                                <a class="btn btn-success btn-xs" title="Approved" href="{{URL::action('AdminCommentsController@getHide',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                                 @else
-                                <a class="btn btn-danger btn-xs" title="Un Approve" href="#">
+                                <a class="btn btn-danger btn-xs" title="Un Approve" href="{{URL::action('AdminCommentsController@getPublish',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                                 @endif

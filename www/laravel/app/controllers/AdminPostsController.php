@@ -12,7 +12,6 @@ class AdminPostsController extends BaseController{
 
     }
 
-
     public function getIndex()
     {
         try{
@@ -40,7 +39,8 @@ class AdminPostsController extends BaseController{
     public function getRecord($objectId = null)
     {
         if(is_null($objectId)){
-            return Redirect::to('/admin/posts')->with('error','You must select a record to view');
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','You must select a record to view');
         }
 
         try{
@@ -59,7 +59,8 @@ class AdminPostsController extends BaseController{
 
     public function getDelete($objectId = null){
         if(is_null($objectId)){
-            return Redirect::to('/admin/posts')->with('error','You must select a record to delete');
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','You must select a record to delete');
         }
 
         try{
@@ -90,7 +91,7 @@ class AdminPostsController extends BaseController{
 
             $result = $postData->save();
 
-            return Redirect::action(array('PostsController@getRecord', $result->results[0]->objectId))
+            return Redirect::action('AdminPostsController@getRecord', $result->objectId)
                             ->with('success','Your Post Has been added');
 
         }catch(ParseLibraryException $e){
@@ -129,7 +130,7 @@ class AdminPostsController extends BaseController{
 
             $result = $postData->update(Input::get('objectId'));
 
-            return Redirect::action(array('PostsController@getRecord', Input::get('objectId')))
+            return Redirect::action('AdminPostsController@getRecord', Input::get('objectId'))
                 ->with('success','Your Post Has been updated');
 
         }catch(ParseLibraryException $e){
@@ -137,6 +138,43 @@ class AdminPostsController extends BaseController{
         }
     }
 
+    public function getHide($objectId = null){
+        if(is_null($objectId)){
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','You must select a record to unpublish');
+        }
+
+        try{
+            $recordInfo = new parseObject('posts');
+            $recordInfo->active = false;
+            $recordInfo->update($objectId);
+
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('success','Your Post Has been publish');
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function getPublish($objectId = null){
+        if(is_null($objectId)){
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('error','You must select a record to delete');
+        }
+
+        try{
+            $recordInfo = new parseObject('posts');
+            $recordInfo->active = true;
+            $recordInfo->update($objectId);
+
+            return Redirect::action('AdminPostsController@getIndex')
+                ->with('success','Your Post Has been deleted');
+
+        }catch(ParseLibraryException $e){
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+    }
 
 
 }
