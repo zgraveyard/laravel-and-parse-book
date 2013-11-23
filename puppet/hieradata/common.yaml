@@ -1,73 +1,105 @@
 ---
-laravel:
-    laravel.dev: # project name
-        target: '/var/www'
-
-php:
-    install_php55: true # defaults to 5.4
-    install_pear: true
-    mods:
-        - php5-apcu
-        - php5-cli
-        - php5-curl
-        - php5-intl
-        - php5-mcrypt
-        - php5-memcached
-        - php5-mysql
-        - php5-sqlite
-        - php5-gd
-    pecl_mods: # do not choose xdebug here
-        - pecl_http
-    ini:
-        - 'date.timezone = "America/Chicago"'
-        - 'display_errors = On'
-        - 'error_reporting = -1'
-
+vagrantfile-local:
+    vm:
+        box: ubuntu-precise12042-x64-vbox43
+        box_url: 'https://puphpet.s3.amazonaws.com/ubuntu-precise12042-x64-vbox43.box'
+        hostname: null
+        network:
+            private_network: 192.168.56.105
+            forwarded_port:
+                Q7lZD8adrMGY:
+                    host: ''
+                    guest: ''
+        provider:
+            virtualbox:
+                modifyvm:
+                    name: jasmine-vm
+                    natdnshostresolver1: on
+                    memory: '1024'
+                setextradata:
+                    VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root: 1
+        provision:
+            puppet:
+                manifests_path: puppet/manifests
+                options:
+                    - --verbose
+                    - '--hiera_config /vagrant/hiera.yaml'
+                    - '--parser future'
+        synced_folder:
+            uQEeHPZwBc0G:
+                id: vagrant-root
+                source: ./www
+                target: /var/www
+                nfs: 'false'
+        usable_port_range: 2200..2250
+    ssh:
+        host: null
+        port: null
+        private_key_path: null
+        username: vagrant
+        guest_port: null
+        keep_alive: true
+        forward_agent: false
+        forward_x11: false
+        shell: 'bash -l'
+    vagrant:
+        host: ':detect'
+server:
+    packages: {  }
+    dot_files:
+        -
+            bash_aliases: null
+    _prevent_empty: ''
 apache:
-    servername: laravel-vm
-    mods:
-        - rewrite
+    modules:
         - php
+        - rewrite
     vhosts:
-        laravel.dev: # must match with laravel hash
-            servername: laravel.dev
+        D7bFYV4ok6kv:
+            servername: jasmine.dev
             serveraliases:
-                - www.laravel.dev
-            docroot: /var/www/laravel.dev/public
-            port: 80
-
+                - jasmine.dev
+                - www.jasmine.dev
+                - '*.jasmine.dev'
+            docroot: /var/www/laravel/public
+            port: '80'
+            setenv:
+                - 'APP_ENV dev'
+            override:
+                - All
+    user: www-data
+    group: www-data
+    default_vhost: true
+    mpm_module: prefork
+php:
+    version: '54'
+    composer: '1'
+    modules:
+        php:
+            - cli
+            - intl
+            - mcrypt
+            - curl
+            - sqlite
+        pear: {  }
+        pecl:
+            - pecl_http
+    ini:
+        display_errors: On
+        error_reporting: '-1'
+        session.save_path: /var/lib/php/session
+    timezone: Asia/Damascus
 xdebug:
-    default_enable: 1
-    remote_autostart: 1
-    remote_connect_back: 1
-    remote_enable: 1
-    remote_handler: dbgp
-    remote_port: 9000
-
+    install: 0
+    settings:
+        xdebug.default_enable: '1'
+        xdebug.remote_autostart: '0'
+        xdebug.remote_connect_back: '1'
+        xdebug.remote_enable: '1'
+        xdebug.remote_handler: dbgp
+        xdebug.remote_port: '9000'
 mysql:
-    root_password: "123"
-    dbs:
-        laravel4:
-            name: laravel4
-            grant:
-                - ALL
-            user: totwell
-            password: "123"
-            host: localhost
-            charset: utf8
+    root_password: '123'
+    phpmyadmin: 0
+    databases: {  }
 
-postgresql:
-    dbs:
-        laravel4:
-            name: laravel4
-            user: totwell
-            password: "123"
-            grant: ALL
-
-redis:
-    conf_port: 6379
-    conf_bind: 127.0.0.1
-
-beanstalkd:
-    listen_addr: '127.0.0.1'
-    listen_port: '11300'

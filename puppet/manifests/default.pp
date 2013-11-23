@@ -1,37 +1,154 @@
-$php_values = hiera('php')
-$apache_values = hiera('apache')
-$xdebug_values = hiera('xdebug')
-$mysql_values = hiera('mysql')
-$postgresql_values = hiera('postgresql')
-$redis_values = hiera('redis')
-$beanstalkd_values = hiera('beanstalkd')
-$laravel_values = hiera('laravel')
+## Begin Server manifest
 
-group { 'puppet': ensure => present }
+if $server_values == undef {
+  $server_values = hiera('server', false)
+}
+
+# Ensure the time is accurate, reducing the possibilities of apt repositories
+# failing for invalid certificates
+include '::ntp'
+
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
 
-class { 'apt': }
+group { 'puppet': ensure => present }
+group { 'www-data': ensure => present }
 
-Class['::apt::update'] -> Package <|
-    title != 'python-software-properties'
-and title != 'software-properties-common'
-|>
-
-apt::source { 'packages.dotdeb.org':
-  location          => 'http://packages.dotdeb.org',
-  release           => $lsbdistcodename,
-  repos             => 'all',
-  required_packages => 'debian-keyring debian-archive-keyring',
-  key               => '89DF5277',
-  key_server        => 'keys.gnupg.net',
-  include_src       => true
+user { $::ssh_username:
+  shell  => '/bin/bash',
+  home   => "/home/${::ssh_username}",
+  ensure => present
 }
 
-if $php_values['install_php55'] {
-  apt::source { 'packages.dotdeb.org-php55':
+user { ['apache', 'nginx', 'httpd', 'www-data']:
+  shell  => '/bin/bash',
+  ensure => present,
+  groups => 'www-data',
+  require => Group['www-data']
+}
+
+file { "/home/${::ssh_username}":
+    ensure => directory,
+    owner  => $::ssh_username,
+}
+
+# copy dot files to ssh user's home directory
+exec { 'dotfiles':
+  cwd     => "/home/${::ssh_username}",
+  command => "cp -r /vagrant/files/dot/.[a-zA-Z0-9]* /home/${::ssh_username}/ && chown -R ${::ssh_username} /home/${::ssh_username}/.[a-zA-Z0-9]*",
+  onlyif  => "test -d /vagrant/files/dot",
+  require => User[$::ssh_username]
+}
+
+case $::osfamily {
+  # debian, ubuntu
+  'debian': {
+    class { 'apt': }
+
+    Class['::apt::update'] -> Package <|
+        title != 'python-software-properties'
+    and title != 'software-properties-common'
+    |>
+
+    ensure_packages( ['augeas-tools'] )
+  }
+  # redhat, centos
+  'redhat': {
+    class { 'yum': extrarepo => ['epel'] }
+
+    Class['::yum'] -> Yum::Managed_yumrepo <| |> -> Package <| |>
+
+    exec { 'bash_git':
+      cwd     => "/home/${::ssh_username}",
+      command => "curl https://raw.github.com/git/git/master/contrib/completion/git-prompt.sh > /home/${::ssh_username}/.bash_git",
+      creates => "/home/${::ssh_username}/.bash_git"
+    }
+
+    file_line { 'link ~/.bash_git':
+      ensure  => present,
+      line    => 'if [ -f ~/.bash_git ] ; then source ~/.bash_git; fi',
+      path    => "/home/${::ssh_username}/.bash_profile",
+      require => [
+        Exec['dotfiles'],
+        Exec['bash_git'],
+      ]
+    }
+
+    file_line { 'link ~/.bash_aliases':
+      ensure  => present,
+      line    => 'if [ -f ~/.bash_aliases ] ; then source ~/.bash_aliases; fi',
+      path    => "/home/${::ssh_username}/.bash_profile",
+      require => [
+        File_line['link ~/.bash_git'],
+      ]
+    }
+
+    ensure_packages( ['augeas'] )
+  }
+}
+
+if $php_values == undef {
+  $php_values = hiera('php', false)
+}
+
+case $::operatingsystem {
+  'debian': {
+    add_dotdeb { 'packages.dotdeb.org': release => $lsbdistcodename }
+
+    if is_hash($php_values) {
+      # Debian Squeeze 6.0 can do PHP 5.3 (default) and 5.4
+      if $lsbdistcodename == 'squeeze' and $php_values['version'] == '54' {
+        add_dotdeb { 'packages.dotdeb.org-php54': release => 'squeeze-php54' }
+      }
+      # Debian Wheezy 7.0 can do PHP 5.4 (default) and 5.5
+      elsif $lsbdistcodename == 'wheezy' and $php_values['version'] == '55' {
+        add_dotdeb { 'packages.dotdeb.org-php55': release => 'wheezy-php55' }
+      }
+    }
+  }
+  'ubuntu': {
+    apt::key { '4F4EA0AAE5267A6C': }
+
+    if is_hash($php_values) {
+      # Ubuntu Lucid 10.04, Precise 12.04, Quantal 12.10 and Raring 13.04 can do PHP 5.3 (default <= 12.10) and 5.4 (default <= 13.04)
+      if $lsbdistcodename in ['lucid', 'precise', 'quantal', 'raring'] and $php_values['version'] == '54' {
+        if $lsbdistcodename == 'lucid' {
+          apt::ppa { 'ppa:ondrej/php5-oldstable': require => Apt::Key['4F4EA0AAE5267A6C'], options => '' }
+        } else {
+          apt::ppa { 'ppa:ondrej/php5-oldstable': require => Apt::Key['4F4EA0AAE5267A6C'] }
+        }
+      }
+      # Ubuntu Precise 12.04, Quantal 12.10 and Raring 13.04 can do PHP 5.5
+      elsif $lsbdistcodename in ['precise', 'quantal', 'raring'] and $php_values['version'] == '55' {
+        apt::ppa { 'ppa:ondrej/php5': require => Apt::Key['4F4EA0AAE5267A6C'] }
+      }
+      elsif $lsbdistcodename in ['lucid'] and $php_values['version'] == '55' {
+        err('You have chosen to install PHP 5.5 on Ubuntu 10.04 Lucid. This will probably not work!')
+      }
+    }
+  }
+  'redhat', 'centos': {
+    if is_hash($php_values) {
+      if $php_values['version'] == '54' {
+        class { 'yum::repo::remi': }
+      }
+      # remi_php55 requires the remi repo as well
+      elsif $php_values['version'] == '55' {
+        class { 'yum::repo::remi': }
+        class { 'yum::repo::remi_php55': }
+      }
+    }
+  }
+}
+
+if !empty($server_values['packages']) {
+  ensure_packages( $server_values['packages'] )
+}
+
+define add_dotdeb ($release){
+   apt::source { $name:
     location          => 'http://packages.dotdeb.org',
-    release           => 'wheezy-php55',
+    release           => $release,
     repos             => 'all',
     required_packages => 'debian-keyring debian-archive-keyring',
     key               => '89DF5277',
@@ -40,245 +157,343 @@ if $php_values['install_php55'] {
   }
 }
 
-package { ['build-essential', 'vim-nox', 'wget', 'git-core', 'python-pip', 'checkinstall' ]:
-  ensure  => 'installed',
+## Begin Apache manifest
+
+if $yaml_values == undef {
+  $yaml_values = loadyaml('/vagrant/puppet/hieradata/common.yaml')
 }
 
-if !defined(Package['curl']) {
-  package { 'curl':
-    ensure => 'present',
+if $apache_values == undef {
+  $apache_values = $yaml_values['apache']
+}
+
+include puphpet::params
+
+$webroot_location = $puphpet::params::apache_webroot_location
+
+exec { "exec mkdir -p ${webroot_location}":
+  command => "mkdir -p ${webroot_location}",
+  onlyif  => "test -d ${webroot_location}",
+}
+
+if ! defined(File[$webroot_location]) {
+  file { $webroot_location:
+    ensure  => directory,
+    group   => 'www-data',
+    mode    => 0775,
+    require => [
+      Exec["exec mkdir -p ${webroot_location}"],
+      Group['www-data']
+    ]
   }
-}
-
-exec { 'dotfiles':
-  cwd     => '/home/vagrant',
-  command => "cp -r /vagrant/files/dot/.[a-zA-Z0-9]* /home/vagrant/",
-  onlyif  => "test -d /vagrant/files/dot",
-}
-
-file { '/var/www':
-  ensure  => 'directory'
 }
 
 class { 'apache':
-  servername    => $apache_values['servername'],
-  default_vhost => false,
-  mpm_module    => 'prefork',
-  override      => ['All'],
-  require       => [
-    Apt::Source['packages.dotdeb.org'],
-    File['/var/www']
-  ],
+  user          => $apache_values['user'],
+  group         => $apache_values['group'],
+  default_vhost => $apache_values['default_vhost'],
+  mpm_module    => $apache_values['mpm_module'],
+  manage_user   => false,
+  manage_group  => false
 }
+
+if $::osfamily == 'debian' {
+  case $apache_values['mpm_module'] {
+    'prefork': { ensure_packages( ['apache2-mpm-prefork'] ) }
+    'worker':  { ensure_packages( ['apache2-mpm-worker'] ) }
+    'event':   { ensure_packages( ['apache2-mpm-event'] ) }
+  }
+} elsif $::osfamily == 'redhat' and ! defined(Iptables::Allow['tcp/80']) {
+  iptables::allow { 'tcp/80':
+    port     => '80',
+    protocol => 'tcp'
+  }
+}
+
+create_resources(apache::vhost, $apache_values['vhosts'])
 
 define apache_mod {
-  class { "apache::mod::${name}": }
-}
-
-apache_mod { $apache_values['mods']:; }
-
-class { 'php':
-  service       => 'httpd',
-  module_prefix => '',
-  require       => Package['httpd'],
-}
-
-class { 'php::devel':
-  require => Class['php'],
-}
-
-if $php_values['install_pear'] {
-  class { 'php::pear':
-    require => Class['php'],
+  if ! defined(Class["apache::mod::${name}"]) {
+    class { "apache::mod::${name}": }
   }
+}
+
+if count($apache_values['modules']) > 0 {
+  apache_mod { $apache_values['modules']: }
+}
+
+## Begin PHP manifest
+
+if $php_values == undef {
+  $php_values = hiera('php', false)
+}
+
+if $apache_values == undef {
+  $apache_values = hiera('apache', false)
+}
+
+if $nginx_values == undef {
+  $nginx_values = hiera('nginx', false)
+}
+
+Class['Php'] -> Class['Php::Devel'] -> Php::Module <| |> -> Php::Pear::Module <| |> -> Php::Pecl::Module <| |>
+
+if $php_prefix == undef {
+  $php_prefix = $::operatingsystem ? {
+    /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => 'php5-',
+    default                                 => 'php-',
+  }
+}
+
+if $php_fpm_ini == undef {
+  $php_fpm_ini = $::operatingsystem ? {
+    /(?i:Ubuntu|Debian|Mint|SLES|OpenSuSE)/ => '/etc/php5/fpm/php.ini',
+    default                                 => '/etc/php.ini',
+  }
+}
+
+if is_hash($apache_values) {
+  include apache::params
+
+  $php_webserver_service = 'httpd'
+  $php_webserver_user = $apache::params::user
+
+  class { 'php':
+    service => $php_webserver_service
+  }
+} elsif is_hash($nginx_values) {
+  include nginx::params
+
+  $php_webserver_service = "${php_prefix}fpm"
+  $php_webserver_user = $nginx::params::nx_daemon_user
+
+  class { 'php':
+    package             => $php_webserver_service,
+    service             => $php_webserver_service,
+    service_autorestart => false,
+    config_file         => $php_fpm_ini,
+  }
+
+  service { $php_webserver_service:
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => true,
+    require    => Package[$php_webserver_service]
+  }
+}
+
+class { 'php::devel': }
+
+if count($php_values['modules']['php']) > 0 {
+  php_mod { $php_values['modules']['php']:; }
+}
+if count($php_values['modules']['pear']) > 0 {
+  php_pear_mod { $php_values['modules']['pear']:; }
+}
+if count($php_values['modules']['pecl']) > 0 {
+  php_pecl_mod { $php_values['modules']['pecl']:; }
+}
+if count($php_values['ini']) > 0 {
+  $php_values['ini'].each { |$key, $value|
+    puphpet::ini { $key:
+      entry       => "CUSTOM/${key}",
+      value       => $value,
+      php_version => $php_values['version'],
+      webserver   => $php_webserver_service
+    }
+  }
+
+  if $php_values['ini']['session.save_path'] != undef {
+    exec {"mkdir -p ${php_values['ini']['session.save_path']}":
+      onlyif  => "test ! -d ${php_values['ini']['session.save_path']}",
+    }
+
+    file { $php_values['ini']['session.save_path']:
+      ensure  => directory,
+      group   => 'www-data',
+      mode    => 0775,
+      require => Exec["mkdir -p ${php_values['ini']['session.save_path']}"]
+    }
+  }
+}
+
+puphpet::ini { $key:
+  entry       => 'CUSTOM/date.timezone',
+  value       => $php_values['timezone'],
+  php_version => $php_values['version'],
+  webserver   => $php_webserver_service
 }
 
 define php_mod {
   php::module { $name: }
 }
-
-php_mod { $php_values['mods']:; }
-
+define php_pear_mod {
+  php::pear::module { $name: use_package => false }
+}
 define php_pecl_mod {
-  php::pecl::module { $name:
-    use_package => false,
+  php::pecl::module { $name: use_package => false }
+}
+
+if $php_values['composer'] == 1 {
+  class { 'composer':
+    target_dir      => '/usr/local/bin',
+    composer_file   => 'composer',
+    download_method => 'curl',
+    logoutput       => false,
+    tmp_path        => '/tmp',
+    php_package     => "${php::params::module_prefix}cli",
+    curl_package    => 'curl',
+    suhosin_enabled => false,
   }
 }
 
-php_pecl_mod { $php_values['pecl_mods']:; }
-
-class { 'composer':
-  require => Package['php5', 'curl'],
+if $xdebug_values == undef {
+  $xdebug_values = hiera('xdebug', false)
 }
 
-class { 'xdebug':
-  service => 'httpd',
+if is_hash($apache_values) {
+  $xdebug_webserver_service = 'httpd'
+} elsif is_hash($nginx_values) {
+  $xdebug_webserver_service = 'nginx'
+} else {
+  $xdebug_webserver_service = undef
 }
 
-puphpet::ini { 'xdebug':
-  value   => join_keys_to_values($xdebug_values, ': '),
-  ini     => '/etc/php5/mods-available/zzz_xdebug.ini',
-  notify  => Service['httpd'],
-  require => Class['php'],
-}
+if $xdebug_values['install'] != undef and $xdebug_values['install'] == 1 {
+  class { 'puphpet::xdebug':
+    webserver => $xdebug_webserver_service
+  }
 
-file { '/etc/php5/cli/conf.d/zzz_xdebug.ini':
-  target  => '/etc/php5/mods-available/zzz_xdebug.ini',
-  ensure  => link,
-  require => Puphpet::Ini['xdebug']
-}
-
-file { '/etc/php5/apache2/conf.d/zzz_xdebug.ini':
-  target  => '/etc/php5/mods-available/zzz_xdebug.ini',
-  ensure  => link,
-  require => Puphpet::Ini['xdebug']
-}
-
-if !defined(File['/usr/bin/xdebug']) {
-  file { '/usr/bin/xdebug':
-    ensure => 'present',
-    mode   => '+X',
-    source => 'puppet:///modules/xdebug/cli_alias.erb'
+  if is_hash($xdebug_values['settings']) and count($xdebug_values['settings']) > 0 {
+    $xdebug_values['settings'].each { |$key, $value|
+      puphpet::ini { $key:
+        entry       => "XDEBUG/${key}",
+        value       => $value,
+        php_version => $php_values['version'],
+        webserver   => $xdebug_webserver_service
+      }
+    }
   }
 }
 
-puphpet::ini { 'php':
-  value   => $php_values['ini'],
-  ini     => '/etc/php5/mods-available/zzz_php.ini',
-  notify  => Service['httpd'],
-  require => Class['php'],
+## Begin MySQL manifest
+
+if $mysql_values == undef {
+  $mysql_values = hiera('mysql', false)
 }
 
-file { '/etc/php5/cli/conf.d/zzz_php.ini':
-  target  => '/etc/php5/mods-available/zzz_php.ini',
-  ensure  => link,
-  require => Puphpet::Ini['php']
+if $php_values == undef {
+  $php_values = hiera('php', false)
 }
 
-file { '/etc/php5/apache2/conf.d/zzz_php.ini':
-  target  => '/etc/php5/mods-available/zzz_php.ini',
-  ensure  => link,
-  require => Puphpet::Ini['php']
+if $apache_values == undef {
+  $apache_values = hiera('apache', false)
 }
 
-class { 'mysql::server':
-  root_password => $mysql_values['root_password'],
-  require       => Class['apache'],
+if $nginx_values == undef {
+  $nginx_values = hiera('nginx', false)
 }
 
-create_resources(mysql::db, $mysql_values['dbs'])
+if $mysql_values['root_password'] {
+  class { 'mysql::server':
+    root_password => $mysql_values['root_password'],
+  }
 
-class { 'postgresql::server': }
+  if is_hash($mysql_values['databases']) and count($mysql_values['databases']) > 0 {
+    create_resources(mysql_db, $mysql_values['databases'])
+  }
 
-define postgresql_server_db (
+  if is_hash($php_values) {
+    if $::osfamily == 'redhat' and $php_values['version'] == '53' and ! defined(Php::Module['mysql']) {
+      php::module { 'mysql': }
+    } elsif ! defined(Php::Module['mysqlnd']) {
+      php::module { 'mysqlnd': }
+    }
+  }
+}
+
+define mysql_db (
   $user,
   $password,
-  $encoding   = $postgresql::server::encoding,
-  $locale     = $postgresql::server::locale,
-  $grant      = 'ALL',
-  $tablespace = undef,
-  $istemplate = false
+  $host,
+  $grant    = [],
+  $sql_file = false
 ) {
-  $dbname = $name
+  if $name == '' or $password == '' or $host == '' {
+    fail( 'MySQL DB requires that name, password and host be set. Please check your settings!' )
+  }
 
-  postgresql::server::db{ 'laravel4':
-    user       => $user,
-    password   => postgresql_password($password, $dbname),
-    encoding   => $encoding,
-    locale     => $locale,
-    grant      => $grant,
-    tablespace => $tablespace,
-    istemplate => $istemplate
+  mysql::db { $name:
+    user     => $user,
+    password => $password,
+    host     => $host,
+    grant    => $grant,
+    sql      => $sql_file,
   }
 }
 
-create_resources(postgresql_server_db, $postgresql_values['dbs'])
+if $mysql_values['phpmyadmin'] == 1 and is_hash($php_values) {
+  if $::osfamily == 'debian' {
+    if $::operatingsystem == 'ubuntu' {
+      apt::key { '80E7349A06ED541C': }
+      apt::ppa { 'ppa:nijel/phpmyadmin': require => Apt::Key['80E7349A06ED541C'] }
+    }
 
-class { 'nodejs':
-  version      => 'v0.10.17',
-  make_install => false,
-  with_npm     => false,
-}
-
-define install_node_npm() {
-  wget::fetch { "npm-download-${node_version}":
-    source             => 'https://npmjs.org/install.sh',
-    nocheckcertificate => true,
-    destination        => '/tmp/install.sh',
+    $phpMyAdmin_package = 'phpmyadmin'
+    $phpMyAdmin_folder = 'phpmyadmin'
+  } elsif $::osfamily == 'redhat' {
+    $phpMyAdmin_package = 'phpMyAdmin.noarch'
+    $phpMyAdmin_folder = 'phpMyAdmin'
   }
 
-  exec { "npm-install-${node_version}":
-    command     => 'sh install.sh',
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin',
-    cwd         => '/tmp',
-    user        => 'root',
-    environment => 'clean=yes',
-    unless      => 'which npm',
-    require     => [
-      Wget::Fetch["npm-download-${node_version}"],
-      Package['curl'],
-    ],
+  if ! defined(Package[$phpMyAdmin_package]) {
+    package { $phpMyAdmin_package:
+      require => Class['mysql::server']
+    }
   }
 
-  file { "${node_target_dir}/npm":
-    target  => '/usr/local/bin/npm',
+  include puphpet::params
+
+  if is_hash($apache_values) {
+    $mysql_webroot_location = $puphpet::params::apache_webroot_location
+  } elsif is_hash($nginx_values) {
+    $mysql_webroot_location = $puphpet::params::nginx_webroot_location
+
+    mysql_nginx_default_conf { 'override_default_conf':
+      webroot => $mysql_webroot_location
+    }
+  }
+
+  file { "${mysql_webroot_location}/phpmyadmin":
+    target  => "/usr/share/${phpMyAdmin_folder}",
     ensure  => link,
-    require => Exec["npm-install-${node_version}"],
+    replace => 'no',
+    require => [
+      Package[$phpMyAdmin_package],
+      File[$mysql_webroot_location]
+    ]
   }
 }
 
-install_node_npm{ 'default':
-  require => Class['nodejs']
-}
-
-class { 'redis':
-  conf_port => $redis_values['conf_port'],
-  conf_bind => $redis_values['conf_bind'],
-}
-
-package { 'redis-commander':
-  provider => npm
-}
-
-class {'beanstalkd' :
-  listen_addr => $beanstalkd_values['listen_addr'],
-  listen_port => $beanstalkd_values['listen_port'],
-}
-
-git::repo{ 'beanstalk_console':
-  path    => '/var/www/beanstalk_console',
-  source  => 'git://github.com/ptrofimov/beanstalk_console.git',
-  require => Class['beanstalkd']
-}
-
-apache::vhost { 'beanstalk_console.dev':
-  servername    => 'beanstalk_console.dev',
-  serveraliases => ['www.beanstalk_console.dev',],
-  docroot       => '/var/www/beanstalk_console/public',
-  port          => '80',
-  override      => ['All',],
-  require       => Git::Repo['beanstalk_console']
-}
-
-package { 'grunt-cli':
-  provider => npm
-}
-
-define install_site_with_composer (
-  $target
+define mysql_nginx_default_conf (
+  $webroot
 ) {
-  $project_name = $name
-
-  exec { "composer create-project laravel/laravel ${project_name} --prefer-dist --working-dir ${target}":
-    path        => ['/usr/local/bin', '/usr/bin', '/bin'],
-    environment => "COMPOSER_HOME=/usr/local/bin",
-    cwd         => '/var/www',
-    creates     => "${target}/${name}",
-    require     => [Package['php'], Class['composer']],
-    before      => Apache::Vhost[$project_name],
+  if $php5_fpm_sock == undef {
+    $php5_fpm_sock = '/var/run/php5-fpm.sock'
   }
 
-  create_resources(apache::vhost, $apache_values['vhosts'])
+  if $fastcgi_pass == undef {
+    $fastcgi_pass = $php_values['version'] ? {
+      undef   => null,
+      '53'    => '127.0.0.1:9000',
+      default => "unix:${php5_fpm_sock}"
+    }
+  }
+
+  class { 'puphpet::nginx':
+    fastcgi_pass => $fastcgi_pass,
+    notify       => Class['nginx::service'],
+  }
 }
 
-create_resources(install_site_with_composer, $laravel_values)
