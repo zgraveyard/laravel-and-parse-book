@@ -39,6 +39,10 @@
 </nav>
 
 <div class="container">
+    @if(Session::has('error'))
+        <div class="alert alert-danger">{{Session::get('error')}}</div>
+    @endif
+
     @yield('body')
 </div><!-- /.container -->
 
@@ -46,7 +50,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <p>Copyright &copy; Company 2013</p>
+                <p>All the code is Under The MIT License.</p>
             </div>
         </div>
     </div>

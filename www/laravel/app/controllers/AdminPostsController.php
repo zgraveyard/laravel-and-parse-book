@@ -8,7 +8,7 @@ class AdminPostsController extends BaseController{
         $this->perPage = Config::get('application.perPage');
 
         $pageNo = Input::get('page');
-        $this->skip = (is_null($pageNo['page'])) ? 0 : ( $this->perPage * ( $pageNo['page'] - 1)) ;
+        $this->skip = (is_null($pageNo)) ? 0 : ( $this->perPage * ( $pageNo - 1)) ;
 
     }
 

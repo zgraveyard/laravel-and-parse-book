@@ -4,8 +4,6 @@ Route::get('/login',array('as' => 'login', 'uses' => 'AuthController@getLogin'))
 Route::post('/login',array('uses'=>'AuthController@postLogin'));
 Route::get('/logout', array('as'=>'logout','uses'=>'AuthController@getLogout'));
 
-Route::controller('/','HomeController');
-
 Route::get('/admin',array('before'=>'auth',function(){
     return Redirect::action('AdminDashboardController@getIndex');
 }));
@@ -17,6 +15,4 @@ Route::group(array('before'=>'auth','prefix'=>'admin'),function(){
     Route::controller('dashboard','AdminDashboardController');
 });
 
-//Route::group(array('before'=>'auth'),function(){
-//    Route::controller('/','HomeController');
-//});
+Route::controller('/','HomeController');

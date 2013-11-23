@@ -12,19 +12,18 @@
             @foreach($posts as $post)
             <div class="col-lg-12 text-center">
                 <img class="img-responsive img-border img-full" src="http://lorempixel.com/843/403/city/{{rand(1,10)}}">
-                <h2>{{$post->title}}<br><small>{{date('Y-M-D',strtotime($post->createdAt))}}</small></h2>
+                <h2>{{$post->title}}<br><small>{{date('F j, Y',strtotime($post->createdAt))}}</small></h2>
                 <p>{{Str::limit($post->body, 255)}}</p>
-                <a href="#" class="btn btn-default btn-lg">Read More</a>
+                <p class="text-right">
+                    <a href="{{URL::action('HomeController@getPost',$post->objectId)}}" class="btn btn-default btn-lg">
+                        Read More
+                    </a>
+                </p>
                 <hr>
             </div>
             @endforeach
         @endif
-        <div class="col-lg-12 text-center">
-            <ul class="pager">
-                <li class="previous"><a href="#">&larr; Older</a></li>
-                <li class="next"><a href="#">Newer &rarr;</a></li>
-            </ul>
-        </div>
+        {{$paginator->links()}}
     </div>
 </div>
 @stop

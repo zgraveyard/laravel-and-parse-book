@@ -94,3 +94,10 @@ li.no-before:before{
 .widget .panel-body form{
     margin: 15px;
 }
+
+.text-justify{
+    text-align: justify;
+}
+
+#comments div.row{border-bottom:1px solid #ccc;}
+#comments div.row:last-child{border-bottom:none;}

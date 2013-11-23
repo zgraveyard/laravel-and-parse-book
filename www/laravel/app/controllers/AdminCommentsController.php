@@ -5,8 +5,9 @@ class AdminCommentsController extends BaseController{
     public function __construct()
     {
         $this->perPage = Config::get('application.perPage');
-        $pageNo = (is_null(Input::only('page'))) ? 0 : Input::only('page');
-        $this->skip   = (($this->perPage * ($pageNo['page'] - 1)) < 0) ? 0 : ($this->perPage * ($pageNo['page'] - 1));
+
+        $pageNo = Input::get('page');
+        $this->skip = (is_null($pageNo)) ? 0 : ( $this->perPage * ( $pageNo - 1)) ;
     }
 
     public function getIndex()
