@@ -57,7 +57,7 @@
                                 <a class="btn btn-primary btn-xs" title="View" href="{{URL::action('AdminPostsController@getRecord',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                @if(!$item->active)
+                                @if($item->active)
                                 <a class="btn btn-success btn-xs" title="Published" href="{{URL::action('AdminPostsController@getHide',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>

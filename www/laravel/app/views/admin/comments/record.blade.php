@@ -46,7 +46,7 @@
                                 <a class="btn btn-primary btn-xs" title="Edit" href="{{URL::action('AdminCommentsController@getEdit',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                @if(!$item->approved)
+                                @if($item->approved)
                                 <a class="btn btn-success btn-xs" title="Approved" href="{{URL::action('AdminCommentsController@getHide',$item->objectId)}}">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>

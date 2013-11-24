@@ -160,7 +160,7 @@ class AdminCommentsController extends BaseController{
         try{
             if(is_null($postObjectId)){
                 return Redirect::action('AdminPostsController@getIndex')
-                    ->with('error','You must select a record to view');
+                    ->with('error','You must select a post to view');
             }
 
             $fullComments = new parseQuery('comments');
@@ -173,7 +173,12 @@ class AdminCommentsController extends BaseController{
             $fullComments->orderByDescending('createdAt');
             $comments = $fullComments->find();
 
-            $postName = $this->_getPostName($postObjectId);
+            if($comments->count == 0){
+                $postName = $this->_getPostName($postObjectId);
+            }else{
+                $postName = $comments->results[0]->post->title;
+            }
+
 
             $paginator = Paginator::make($comments->results, $comments->count, $this->perPage);
 
@@ -195,7 +200,7 @@ class AdminCommentsController extends BaseController{
     {
         if(is_null($objectId)){
             return Redirect::action('AdminCommentsController@getIndex')
-                ->with('error','Choose a comment to unpublish');
+                ->with('error','Choose a comment to un-publish');
         }
 
         try{
@@ -204,7 +209,7 @@ class AdminCommentsController extends BaseController{
             $recordInfo->update($objectId);
 
             return Redirect::action('AdminCommentsController@getIndex')
-                ->with('success','The comment Has been deleted');
+                ->with('success','The comment Has been un-published');
 
         }catch(ParseLibraryException $e){
             throw new Exception($e->getMessage(), $e->getCode());
@@ -215,7 +220,7 @@ class AdminCommentsController extends BaseController{
     {
         if(is_null($objectId)){
             return Redirect::action('AdminCommentsController@getIndex')
-                ->with('error','Choose a comment to publish');
+                ->with('error','Choose a comment to approve');
         }
 
         try{
@@ -224,7 +229,7 @@ class AdminCommentsController extends BaseController{
             $recordInfo->update($objectId);
 
             return Redirect::action('AdminCommentsController@getIndex')
-                ->with('success','The comment Has been deleted');
+                ->with('success','The comment Has been approved');
 
         }catch(ParseLibraryException $e){
             throw new Exception($e->getMessage(), $e->getCode());

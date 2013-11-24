@@ -141,7 +141,7 @@ class AdminPostsController extends BaseController{
     public function getHide($objectId = null){
         if(is_null($objectId)){
             return Redirect::action('AdminPostsController@getIndex')
-                ->with('error','You must select a record to unpublish');
+                ->with('error','You must select a record to un-publish');
         }
 
         try{
@@ -150,7 +150,7 @@ class AdminPostsController extends BaseController{
             $recordInfo->update($objectId);
 
             return Redirect::action('AdminPostsController@getIndex')
-                ->with('success','Your Post Has been publish');
+                ->with('success','Your Post Has been un-publish');
 
         }catch(ParseLibraryException $e){
             throw new Exception($e->getMessage(), $e->getCode());
@@ -160,7 +160,7 @@ class AdminPostsController extends BaseController{
     public function getPublish($objectId = null){
         if(is_null($objectId)){
             return Redirect::action('AdminPostsController@getIndex')
-                ->with('error','You must select a record to delete');
+                ->with('error','You must select a record to publish');
         }
 
         try{
@@ -169,7 +169,7 @@ class AdminPostsController extends BaseController{
             $recordInfo->update($objectId);
 
             return Redirect::action('AdminPostsController@getIndex')
-                ->with('success','Your Post Has been deleted');
+                ->with('success','Your Post Has been published');
 
         }catch(ParseLibraryException $e){
             throw new Exception($e->getMessage(), $e->getCode());
