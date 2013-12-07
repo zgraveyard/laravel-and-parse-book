@@ -17,13 +17,17 @@ class HomeController extends BaseController
     public function getIndex()
     {
         try {
-            $posts = new parseQuery('posts');
-            $posts->setCount(true);
-            $posts->setLimit($this->perPage);
-            $posts->where('active', true);
-            $posts->setSkip($this->skip);
-            $posts->orderByDescending('createdAt');
-            $result    = $posts->find();
+            //$posts = new parseQuery('posts');
+            //$posts->setCount(true);
+            //$posts->setLimit($this->perPage);
+            //$posts->where('active', true);
+            //$posts->setSkip($this->skip);
+            //$posts->orderByDescending('createdAt');
+            //$result    = $posts->find();
+
+            $posts = new Post();
+            $result = $posts->getPosts(true, $this->perPage, $this->skip);
+
             $paginator = Paginator::make($result->results, $result->count, $this->perPage);
 
             $data = array(
@@ -34,7 +38,7 @@ class HomeController extends BaseController
 
             return View::make('site.index')->with($data);
 
-        } catch (ParseLibraryException $e) {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
     }
@@ -46,18 +50,24 @@ class HomeController extends BaseController
         }
 
         try {
-            $post = new parseQuery('posts');
-            $post->where('objectId', $postId);
-            $post->where('active', true);
-            $result   = $post->find();
-            $comments = $this->_getComment($result->results[0]->objectId);
+            //$post = new parseQuery('posts');
+            //$post->where('objectId', $postId);
+            //$post->where('active', true);
+            //$result   = $post->find();
+
+            $post = new Post();
+            $result   = $post->getItem($postId, true);
+
+            //$comments = $this->_getComment($result->results[0]->objectId);
+            $comments = $this->_getComment($result->objectId);
             $data     = array(
-                'post'          => $result->results[0],
+                //'post'          => $result->results[0],
+                'post'          => $result,
                 'comments'      => $comments->results,
                 'commentsCount' => $comments->count);
             return View::make('site.post')->with($data);
 
-        } catch (ParseLibraryException $e) {
+        } catch (Exception $e) {
             return Redirect::back()->with('error', $e->getMessage());
         }
     }

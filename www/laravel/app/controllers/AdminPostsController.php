@@ -15,11 +15,14 @@ class AdminPostsController extends BaseController{
     public function getIndex()
     {
         try{
-            $records = new parseQuery('posts');
-            $records->setCount(true);
-            $records->setLimit($this->perPage);
-            $records->setSkip($this->skip);
-            $result = $records->find();
+            //$records = new parseQuery('posts');
+            //$records->setCount(true);
+            //$records->setLimit($this->perPage);
+            //$records->setSkip($this->skip);
+            //$result = $records->find();
+
+            $posts = new Post();
+            $result = $posts->getPosts(null,$this->perPage,$this->skip);
 
             $paginator = Paginator::make($result->results,$result->count,$this->perPage);
 
@@ -31,7 +34,7 @@ class AdminPostsController extends BaseController{
 
             return View::make('admin.posts.list')->with($data);
 
-        } catch(ParseLibraryException $e){
+        } catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
@@ -44,11 +47,15 @@ class AdminPostsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseQuery('posts');
-            $recordInfo->where('objectId',$objectId);
-            $result = $recordInfo->find();
+            //$recordInfo = new parseQuery('posts');
+            //$recordInfo->where('objectId',$objectId);
+            //$result = $recordInfo->find();
 
-            $data = array('item'=>$result->results[0]);
+            $recordInfo = new Post();
+            $result = $recordInfo->getItem($objectId);
+
+            //$data = array('item'=>$result->results[0]);
+            $data = array('item'=>$result);
 
             return View::make('admin.posts.record')->with($data);
 
@@ -64,8 +71,11 @@ class AdminPostsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseObject('posts');
-            $recordInfo->delete($objectId);
+            //$recordInfo = new parseObject('posts');
+            //$recordInfo->delete($objectId);
+
+            $recordInfo = new Post('posts');
+            $recordInfo->deleteItem($objectId);
 
             return Redirect::action('AdminPostsController@getIndex')
                     ->with('success','Your Post Has been deleted');
@@ -80,24 +90,17 @@ class AdminPostsController extends BaseController{
     }
 
     public function postAdd(){
-        // i will trust that you have send the data, and that you need to store it
-        // as we said before we are here to talk about parse.com not laravel 4
-
         try{
-            $postData = new parseObject('posts');
-            $postData->title = Input::get('title');
-            $postData->body = Input::get('body');
-            $postData->active = true;
 
-            $result = $postData->save();
+            $post = new Post();
+            $result = $post->handleItem(Input::all());
 
             return Redirect::action('AdminPostsController@getRecord', $result->objectId)
                             ->with('success','Your Post Has been added');
 
-        }catch(ParseLibraryException $e){
+        }catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
-
     }
 
     public function getEdit($objectId = null)
@@ -107,15 +110,19 @@ class AdminPostsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseQuery('posts');
-            $recordInfo->where('objectId',$objectId);
-            $result = $recordInfo->find();
+            //$recordInfo = new parseQuery('posts');
+            //$recordInfo->where('objectId',$objectId);
+            //$result = $recordInfo->find();
 
-            $data = array('item'=>$result->results[0]);
+            $recordInfo = new Post();
+            $result = $recordInfo->getItem($objectId);
+
+            //$data = array('item'=>$result->results[0]);
+            $data = array('item'=>$result);
 
             return View::make('admin.posts.edit')->with($data);
 
-        }catch(ParseLibraryException $e){
+        }catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
@@ -123,17 +130,13 @@ class AdminPostsController extends BaseController{
     public function postEdit()
     {
         try{
-            $postData = new parseObject('posts');
-            $postData->title = Input::get('title');
-            $postData->body = Input::get('body');
-            $postData->active = true;
-
-            $result = $postData->update(Input::get('objectId'));
+            $post = new Post();
+            $result = $post->handleItem(Input::all(), true);
 
             return Redirect::action('AdminPostsController@getRecord', Input::get('objectId'))
                 ->with('success','Your Post Has been updated');
 
-        }catch(ParseLibraryException $e){
+        }catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
@@ -145,14 +148,15 @@ class AdminPostsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseObject('posts');
-            $recordInfo->active = false;
-            $recordInfo->update($objectId);
+
+            $input = array('active'=>false, 'objectId'=>$objectId);
+            $post = new Post();
+            $result = $post->handleItem($input, true);
 
             return Redirect::action('AdminPostsController@getIndex')
                 ->with('success','Your Post Has been un-publish');
 
-        }catch(ParseLibraryException $e){
+        }catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }
@@ -164,14 +168,14 @@ class AdminPostsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseObject('posts');
-            $recordInfo->active = true;
-            $recordInfo->update($objectId);
+            $input = array('active'=>true, 'objectId'=>$objectId);
+            $post = new Post();
+            $result = $post->handleItem($input, true);
 
             return Redirect::action('AdminPostsController@getIndex')
                 ->with('success','Your Post Has been published');
 
-        }catch(ParseLibraryException $e){
+        }catch(Exception $e){
             throw new Exception($e->getMessage(), $e->getCode());
         }
     }

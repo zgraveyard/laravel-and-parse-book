@@ -117,11 +117,11 @@ class App extends Illuminate\Support\Facades\App{
 	 *
 	 * @param \Illuminate\Support\ServiceProvider|string  $provider
 	 * @param array  $options
-	 * @return void
+	 * @return \Illuminate\Support\ServiceProvider
 	 * @static 
 	 */
 	 public static function register($provider, $options = array()){
-		 Illuminate\Foundation\Application::register($provider, $options);
+		return Illuminate\Foundation\Application::register($provider, $options);
 	 }
 
 	/**

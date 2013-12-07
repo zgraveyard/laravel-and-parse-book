@@ -36,7 +36,7 @@
                 <li class="list-group-item">
                     <div class="row">
                         <div class="col-xs-2 col-md-1">
-                            <img src="http://placehold.it/80" class="img-circle img-responsive" alt="" /></div>
+                            <img src="http://lorempixel.com/80/80/people/{{rand(1,10)}}" class="img-circle img-responsive" alt="" /></div>
                         <div class="col-xs-10 col-md-11">
                             <div>
                                 <a href="{{URL::action('AdminPostsController@getRecord',$item->post->objectId)}}">
