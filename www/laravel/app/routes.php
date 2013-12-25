@@ -16,3 +16,13 @@ Route::group(array('before'=>'auth','prefix'=>'admin'),function(){
 });
 
 Route::controller('/','HomeController');
+
+Route::any('{path?}', function($path)
+{
+    return Redirect::to('/');
+
+})->where('path', '.+');
+
+App::missing(function(){
+    return Redirect::to('/');
+});

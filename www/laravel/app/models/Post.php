@@ -6,7 +6,7 @@ class Post {
 
 
     /**
-     * @param null $active
+     * @param bool $active
      * @param int $limit
      * @param int $skip
      * @param string $orderBy
@@ -31,12 +31,12 @@ class Post {
             return $result;
 
         } catch(ParseLibraryException $e){
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 406);
         }
     }
 
     /**
-     * @param $objectId the post object Id
+     * @param int $objectId the post object Id
      * @param null $active the post status
      * @return null
      * @throws Exception
@@ -59,12 +59,12 @@ class Post {
             return null;
 
         }catch(ParseLibraryException $e){
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 406);
         }
     }
 
     /**
-     * @param $input input data
+     * @param array $input input data
      * @param bool $isEdit to check if its update or create
      * @return bool|mixed
      * @throws Exception
@@ -91,12 +91,12 @@ class Post {
             return $result;
 
         }catch(ParseLibraryException $e){
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 406);
         }
     }
 
     /**
-     * @param $itemId post id
+     * @param int $itemId post id
      * @return bool
      * @throws Exception
      */
@@ -118,10 +118,10 @@ class Post {
             return true;
 
         }catch(ParseLibraryException $e){
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 406);
 
         } catch(Exception $e){
-            throw new Exception($e->getMessage(), $e->getCode());
+            throw new Exception($e->getMessage(), 406);
         }
     }
 } 

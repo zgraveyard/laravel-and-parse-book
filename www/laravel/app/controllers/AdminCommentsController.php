@@ -14,14 +14,17 @@ class AdminCommentsController extends BaseController{
     {
         try{
 
-            $fullComments = new parseQuery('comments');
-            $fullComments->setCount(true);
-            //this is the important field, which also get the post data
-            $fullComments->whereInclude('post');
-            $fullComments->setLimit($this->perPage);
-            $fullComments->setSkip($this->skip);
-            $fullComments->orderByDescending('createdAt');
-            $comments = $fullComments->find();
+//            $fullComments = new parseQuery('comments');
+//            $fullComments->setCount(true);
+//            //this is the important field, which also get the post data
+//            $fullComments->whereInclude('post');
+//            $fullComments->setLimit($this->perPage);
+//            $fullComments->setSkip($this->skip);
+//            $fullComments->orderByDescending('createdAt');
+//            $comments = $fullComments->find();
+
+            $commentsModel = new Comment;
+            $comments = $commentsModel->getComments();
 
             $paginator = Paginator::make($comments->results, $comments->count, $this->perPage);
 
@@ -45,11 +48,15 @@ class AdminCommentsController extends BaseController{
                 return Redirect::action('AdminCommentsController@getIndex')->with('error','Choose a comment to edit');
             }
 
-            $commentRecord = new parseQuery('comments');
-            $commentRecord->where('objectId', $objectId);
-            $commentRecord->whereInclude('post');
-            $commentRecord->setLimit(1);
-            $result = $commentRecord->find();
+//            $commentRecord = new parseQuery('comments');
+//            $commentRecord->where('objectId', $objectId);
+//            $commentRecord->whereInclude('post');
+//            $commentRecord->setLimit(1);
+//            $result = $commentRecord->find();
+
+            $comment = new Comment;
+            $result = $comment->getComment($objectId);
+
             $result->results[0]->approved = ($result->results[0]->approved) ? 1 : 0;
             $data = array(
                 'item'=> $result->results[0],
@@ -66,14 +73,17 @@ class AdminCommentsController extends BaseController{
     public function postEdit()
     {
         try{
-            $oldComment = new parseObject('comments');
-            $oldComment->authorName = Input::get('authorName');
-            $oldComment->authorEmail = Input::get('authorEmail');
-            $oldComment->commentBody = Input::get('commentBody');
-            $oldComment->approved = (Input::get('approved') == 1) ? true : false;
-            $oldComment->post = $oldComment->dataType('pointer',array('posts', Input::get('postId') ));
+//            $oldComment = new parseObject('comments');
+//            $oldComment->authorName = Input::get('authorName');
+//            $oldComment->authorEmail = Input::get('authorEmail');
+//            $oldComment->commentBody = Input::get('commentBody');
+//            $oldComment->approved = (Input::get('approved') == 1) ? true : false;
+//            $oldComment->post = $oldComment->dataType('pointer',array('posts', Input::get('postId') ));
+//
+//            $result = $oldComment->update(Input::get('objectId'));
 
-            $result = $oldComment->update(Input::get('objectId'));
+            $comment = new Comment;
+            $result = $comment->handelComment(Input::all(), true);
 
             return Redirect::action(array('PostsController@getRecord', Input::get('objectId')))
                 ->with('success','The comment has been updated');
@@ -90,11 +100,14 @@ class AdminCommentsController extends BaseController{
         }
 
         try{
-            $commentRecord = new parseQuery('comments');
-            $commentRecord->where('objectId', $objectId);
-            $commentRecord->whereInclude('post');
-            $commentRecord->setLimit(1);
-            $result = $commentRecord->find();
+//            $commentRecord = new parseQuery('comments');
+//            $commentRecord->where('objectId', $objectId);
+//            $commentRecord->whereInclude('post');
+//            $commentRecord->setLimit(1);
+//            $result = $commentRecord->find();
+
+            $comment = new Comment;
+            $result = $comment->getComment($objectId);
 
             $data = array(
                 'item'=> $result->results[0],
@@ -138,14 +151,17 @@ class AdminCommentsController extends BaseController{
 
     public function postAdd(){
         try{
-            $comment = new parseObject('comments');
-            $comment->authorName = Input::get('authorName');
-            $comment->authorEmail = Input::get('authorEmail');
-            $comment->commentBody = Input::get('commentBody');
-            $comment->post = $comment->dataType('pointer',array('posts',Input::get('postId')));
-            $comment->approved = true;
+//            $comment = new parseObject('comments');
+//            $comment->authorName = Input::get('authorName');
+//            $comment->authorEmail = Input::get('authorEmail');
+//            $comment->commentBody = Input::get('commentBody');
+//            $comment->post = $comment->dataType('pointer',array('posts',Input::get('postId')));
+//            $comment->approved = true;
+//
+//            $result = $comment->save();
 
-            $result = $comment->save();
+            $comment = new Comment;
+            $result = $comment->handelComment(Input::all());
 
             return Redirect::action('AdminPostsController@getRecord', $result->results[0]->objectId)
                 ->with('success','Your comment has been added');
@@ -204,9 +220,14 @@ class AdminCommentsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseObject('comments');
-            $recordInfo->approved = false;
-            $recordInfo->update($objectId);
+//            $recordInfo = new parseObject('comments');
+//            $recordInfo->approved = false;
+//            $recordInfo->update($objectId);
+
+            $input = array('approved' => false, 'objectId' => $objectId);
+            $recordInfo = new Comment;
+            $recordInfo->handelComment($input, true);
+
 
             return Redirect::action('AdminCommentsController@getIndex')
                 ->with('success','The comment Has been un-published');
@@ -224,9 +245,13 @@ class AdminCommentsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseObject('comments');
-            $recordInfo->approved = true;
-            $recordInfo->update($objectId);
+//            $recordInfo = new parseObject('comments');
+//            $recordInfo->approved = true;
+//            $recordInfo->update($objectId);
+
+            $input = array('approved' => true, 'objectId' => $objectId);
+            $recordInfo = new Comment;
+            $recordInfo->handelComment($input, true);
 
             return Redirect::action('AdminCommentsController@getIndex')
                 ->with('success','The comment Has been approved');
@@ -244,12 +269,19 @@ class AdminCommentsController extends BaseController{
         }
 
         try{
-            $recordInfo = new parseQuery('posts');
-            $recordInfo->where('objectId',$objectId);
-            $result = $recordInfo->find();
+//            $recordInfo = new parseQuery('posts');
+//            $recordInfo->where('objectId',$objectId);
+//            $result = $recordInfo->find();
 
-            if(!empty($result->results)){
-                return $result->results[0]->title;
+            $recordInfo = new Post;
+            $result = $recordInfo->getItem($objectId);
+
+
+//            if(!empty($result->results)){
+            if(!empty($result)){
+//                return $result->results[0]->title;
+                return $result->title;
+
             }
 
             throw new Exception('No Records found');

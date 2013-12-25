@@ -1132,6 +1132,31 @@ class Artisan extends Illuminate\Support\Facades\Artisan{
 		return Illuminate\Console\Application::extractNamespace($name, $limit);
 	 }
 
+	/**
+	 * Run an Artisan console command by name.
+	 *
+	 * @param string  $command
+	 * @param array   $parameters
+	 * @param \Symfony\Component\Console\Output\OutputInterface  $output
+	 * @return void
+	 * @static 
+	 */
+	 public static function call($command, $parameters = array(), $output = null){
+		 Illuminate\Foundation\Artisan::call($command, $parameters, $output);
+	 }
+
+	/**
+	 * Dynamically pass all missing methods to console Artisan.
+	 *
+	 * @param string  $method
+	 * @param array   $parameters
+	 * @return mixed
+	 * @static 
+	 */
+	 public static function __call($method, $parameters){
+		return Illuminate\Foundation\Artisan::__call($method, $parameters);
+	 }
+
 }
 
 class Auth extends Illuminate\Support\Facades\Auth{

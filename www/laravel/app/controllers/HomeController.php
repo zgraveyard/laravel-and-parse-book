@@ -91,13 +91,16 @@ public function postAddComment()
 {
     try {
         $allData              = Input::all();
-        $comment              = new parseObject('comments');
-        $comment->authorName  = Input::get('authorName');
-        $comment->authorEmail = Input::get('authorEmail');
-        $comment->commentBody = Input::get('commentBody');
-        $comment->post        = $comment->dataType('pointer', array('posts', Input::get('postId')));
-        $comment->approved    = false;
-        $result = $comment->save();
+//        $comment              = new parseObject('comments');
+//        $comment->authorName  = Input::get('authorName');
+//        $comment->authorEmail = Input::get('authorEmail');
+//        $comment->commentBody = Input::get('commentBody');
+//        $comment->post        = $comment->dataType('pointer', array('posts', Input::get('postId')));
+//        $comment->approved    = false;
+//        $result = $comment->save();
+
+        $comment = new Comment;
+        $result = $comment->handelComment($allData);
 
         return Redirect::action('HomeController@getPost', Input::get('postId'))
                 ->with('success', 'Your comment has been added, and waiting for approval.');
